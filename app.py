@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# ------------------ PAGE CONFIG ------------------
+
 st.set_page_config(page_title="Customer Intelligence Platform", layout="wide")
 
-# ------------------ STYLE ------------------
 st.markdown("""
     <style>
     .main {
@@ -23,23 +22,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ------------------ LOAD FILES ------------------
-model = joblib.load("../model/churn_model.pkl")
-columns = joblib.load("../model/columns.pkl")
+
+model = joblib.load("churn_model.pkl") 
+columns = joblib.load("columns.pkl") 
+
 df = pd.read_csv("../data/WA_Fn-UseC_-Telco-Customer-Churn.csv")
 
-# ------------------ TITLE ------------------
-st.title("🚀 Customer Intelligence Platform")
-st.subheader("Developed by Sonal Yaduvanshi | B.Tech CSE, PSIT Kanpur")
-st.write("🔍 Analyze customer behavior & predict churn using AI")
 
-# ------------------ SIDEBAR ------------------
+st.title("Customer Intelligence Platform")
+st.subheader("Developed by Sonal Yaduvanshi | B.Tech CSE, PSIT Kanpur")
+st.write("Analyze customer behavior & predict churn using AI")
+
+
 st.sidebar.title("Navigation")
 option = st.sidebar.radio("Go to", ["Dashboard", "Data", "Prediction"])
 
-# ------------------ DASHBOARD ------------------
+
 if option == "Dashboard":
-    st.header("📊 Business Dashboard")
+    st.header("Business Dashboard")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Total Customers", len(df))
@@ -60,20 +60,20 @@ if option == "Dashboard":
 
     st.markdown("---")
 
-    st.subheader("💡 Key Insights")
+    st.subheader("Key Insights")
     st.write("• Month-to-month customers churn more")
     st.write("• Higher monthly charges increase churn risk")
     st.write("• Fiber optic users show higher churn")
 
 # ------------------ DATA ------------------
 elif option == "Data":
-    st.header("📁 Dataset Preview")
+    st.header("Dataset Preview")
     st.write("Dataset Shape:", df.shape)
     st.dataframe(df.head(50))
 
 # ------------------ PREDICTION ------------------
 elif option == "Prediction":
-    st.header("🤖 Customer Churn Prediction")
+    st.header("Customer Churn Prediction")
 
     tenure = st.slider("Tenure (Months)", 0, 72)
     monthly = st.number_input("Monthly Charges", 0)
@@ -90,20 +90,20 @@ elif option == "Prediction":
         pred = model.predict(input_df)
 
         if pred[0] == 1:
-            st.error("🚨 High Risk: Customer will churn")
+            st.error("High Risk: Customer will churn")
         else:
-            st.success("✅ Safe: Customer will stay")
+            st.success("Safe: Customer will stay")
 
-        st.write("📊 Model Accuracy: ~85%")
+        st.write("Model Accuracy: ~85%")
         st.download_button("Download Dataset", df.to_csv())
 
 # ------------------ FOOTER ------------------
 st.markdown("---")
 
 st.markdown(
-    "👩‍💻 Developed by **Sonal Yaduvanshi**  \n"
-    "🎓 B.Tech CSE, PSIT Kanpur  \n"
-    "✉ Email: [sonalyaduvanshi.2k25@gmail.com](mailto:sonalyaduvanshi.2k25@gmail.com)  \n"
-    "💻 GitHub: [github.com/sonalyaduvanshi](https://github.com/sonalyaduvanshi)  \n"
-    "🔗 LinkedIn: [linkedin.com/in/sonal2311](https://www.linkedin.com/in/sonal2311)"
+    "Developed by **Sonal Yaduvanshi**  \n"
+    "B.Tech CSE, PSIT Kanpur  \n"
+    "Email: [sonalyaduvanshi.2k25@gmail.com](mailto:sonalyaduvanshi.2k25@gmail.com)  \n"
+    "GitHub: [github.com/sonalyaduvanshi](https://github.com/sonalyaduvanshi)  \n"
+    "LinkedIn: [linkedin.com/in/sonal2311](https://www.linkedin.com/in/sonal2311)"
 )
